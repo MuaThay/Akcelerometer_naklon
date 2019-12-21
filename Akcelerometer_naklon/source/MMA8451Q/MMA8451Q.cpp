@@ -20,20 +20,11 @@
 #include "fsl_i2c.h"
 #include "board.h"
 
-#define REG_WHO_AM_I      	0x0D 		//	VRACIA ID NEJAKOHO OBVODU
+#define REG_WHO_AM_I      	0x0D 		//	VRACIA ID NEJAKEHO OBVODU
 
 #define REG_OUT_X_MSB     	0x01
 #define REG_OUT_Y_MSB     	0x03
 #define REG_OUT_Z_MSB     	0x05
-
-#define REG_CTRL_REG_1   	0x2A
-#define FF_MT_CFG 		 	0x15		//	FreeFall Configuration
-#define FF_MT_SRC			0x16		//	FreeFall Source Detection
-#define FF_MT_THS	     	0x17		//	Threshold Settings
-#define FF_MT_COUNT			0x18		//	Setting the Debounce Counter
-#define CTRL_REGISTER_4		0x2D		//	Interrupt Enable register
-#define CTRL_REGISTER_5		0x2E		//  To set FreeFall to INT1
-#define INT_SOURCE			0x16		// 	Interrupt Status Register
 
 #define UINT14_MAX        16383
 
@@ -42,63 +33,9 @@ MMA8451Q::MMA8451Q(unsigned char addr) : m_addr(addr) {
 
 	I2C_MasterGetDefaultConfig(&masterConfig);
 	I2C_MasterInit(I2C0, &masterConfig, CLOCK_GetBusClkFreq());//I2C0_CLK_SRC
-
-	//int8_t data[2];
-
-	/*data[0] = REG_CTRL_REG_1;								//	Activation peripheral
-	data[1] = 0x01;
-	writeRegs(data,2);*/
-
-	uint8_t data[2] = {REG_CTRL_REG_1, 0x01};
-	writeRegs(data, 2);
-
-	//FreeFall_Initialization();
 }
 
 MMA8451Q::~MMA8451Q() { }
-
-/*void MMA8451Q::FreeFall_Initialization()
-{
-
-	uint8_t data[2];
-
-	data[0] = REG_CTRL_REG_1;								//	Device in Standby Mode: Register 0x2A CTRL_REG1
-	data[1] = 0x20;
-	writeRegs(data, 2);
-
-	data[0] = FF_MT_CFG;									//	Configuration Register set for Freefall Detection enabling “AND” condition, OAE = 0, Enabling X,
-    data[1] = 0xB8;											// 	Y, Z and the Latch
-	writeRegs(data, 2);
-
-
-	data[0] = FF_MT_THS;									// 	Threshold Setting Value for the resulting acceleration < 0.2g
-    data[1] = 0x03;											// 	Note: The step count is 0.063g/count
-    writeRegs(data, 2);										// 	• 0.2g/0.063g = 3.17 counts //Round to 3 counts
-
-	data[0] = FF_MT_COUNT; 									// 	Set the debounce counter to eliminate false positive readings for 50Hz sample rate with a
-    data[1] = 0x06;											//	requirement of 120 ms timer, assuming Normal Mode.
-    writeRegs(data, 2);										// 	Note: 120 ms/20 ms (steps) = 6 counts
-
-    data[0] = CTRL_REGISTER_4;								// 	Enable Motion/Freefall Interrupt Function in the System (CTRL_REG4)
-	data[1] = 0x04;
-	writeRegs(data, 2);
-
-	data[0] = CTRL_REGISTER_5;								//	Route the Motion/Freefall Interrupt Function to INT2 hardware pin (CTRL_REG5)
-	data[1] = 0x00;
-	writeRegs(data, 2);
-
-	readRegs(REG_CTRL_REG_1, data, 1);
-	data[1]= (data[0] | 0x01);
-	data[0] = REG_CTRL_REG_1;
-	writeRegs(data, 2);
-}
-
-void MMA8451Q::FreeFall_Detect()
-{
-   uint8_t t;
-
-    readRegs(FF_MT_SRC, &t, 1); 							// Determine source of the interrupt by first reading the system interrupt
-}*/
 
 uint8_t MMA8451Q::getWhoAmI() {
     uint8_t who_am_i = 0;

@@ -22,33 +22,6 @@
 #include <stdio.h>
 #include <fsl_i2c.h>
 
-//#include "mbed.h" //NETREBA
-
-/**
-* MMA8451Q accelerometer example
-*
-* @code
-* #include "mbed.h"
-* #include "MMA8451Q.h"
-*
-* #define MMA8451_I2C_ADDRESS (0x1d<<1)
-*
-* int main(void) {
-*
-* MMA8451Q acc(P_E25, P_E24, MMA8451_I2C_ADDRESS);
-* PwmOut rled(LED_RED);
-* PwmOut gled(LED_GREEN);
-* PwmOut bled(LED_BLUE);
-*
-*     while (true) {
-*         rled = 1.0 - abs(acc.getAccX());
-*         gled = 1.0 - abs(acc.getAccY());
-*         bled = 1.0 - abs(acc.getAccZ());
-*         wait(0.1);
-*     }
-* }
-* @endcode
-*/
 class MMA8451Q
 {
 public:
@@ -101,8 +74,6 @@ public:
    */
 
   void getAccAllAxis(float * res);
-  void FreeFall_Initialization();
-  void FreeFall_Detect();
   void deepsleep(void);
 private:
   //I2C m_i2c;

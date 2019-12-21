@@ -46,6 +46,7 @@ BOARD_InitPins:
   - {pin_num: '53', peripheral: GPIOB, signal: 'GPIO, 18', pin_signal: TSI0_CH11/PTB18/TPM2_CH0}
   - {pin_num: '54', peripheral: GPIOB, signal: 'GPIO, 19', pin_signal: TSI0_CH12/PTB19/TPM2_CH1}
   - {pin_num: '74', peripheral: GPIOD, signal: 'GPIO, 1', pin_signal: ADC0_SE5b/PTD1/SPI0_SCK/TPM0_CH1}
+  - {pin_num: '34', peripheral: GPIOA, signal: 'GPIO, 14', pin_signal: PTA14/SPI0_PCS0/UART0_TX}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -69,6 +70,9 @@ void BOARD_InitPins(void)
 
     /* PORTA1 (pin 27) is configured as UART0_RX */
     PORT_SetPinMux(BOARD_INITPINS_DEBUG_UART_RX_PORT, BOARD_INITPINS_DEBUG_UART_RX_PIN, kPORT_MuxAlt2);
+
+    /* PORTA14 (pin 34) is configured as PTA14 */
+    PORT_SetPinMux(BOARD_INITPINS_ACCEL_INT1_PORT, BOARD_INITPINS_ACCEL_INT1_PIN, kPORT_MuxAsGpio);
 
     /* PORTA15 (pin 35) is configured as PTA15 */
     PORT_SetPinMux(BOARD_INITPINS_ACCEL_INT2_PORT, BOARD_INITPINS_ACCEL_INT2_PIN, kPORT_MuxAsGpio);

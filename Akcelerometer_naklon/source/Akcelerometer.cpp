@@ -59,12 +59,8 @@ float dolnoPriepustnyFilter(float os_DPF,float* aktualna_os)
 }
 
 void naklonXYDP(float* suradniceDP, int* naklonXYp) {
-	int naklonX, naklonY = 0;
-	naklonX = round( atan(suradniceDP[0] / pow( pow(suradniceDP[1],2) + pow(suradniceDP[2],2), 0.5)) * (180/3.14));
-	naklonY = round( atan(suradniceDP[1] / pow( pow(suradniceDP[0],2) + pow(suradniceDP[2],2), 0.5)) * (180/3.14));
-	naklonXYp[0] = naklonX;
-	naklonXYp[1] = naklonY;
-
+	naklonXYp[0] = round( atan(suradniceDP[0] / pow( pow(suradniceDP[1],2) + pow(suradniceDP[2],2), 0.5)) * (180/3.14));  //X
+	naklonXYp[1] = round( atan(suradniceDP[1] / pow( pow(suradniceDP[0],2) + pow(suradniceDP[2],2), 0.5)) * (180/3.14));  //Y
 }
 
 

@@ -37,21 +37,11 @@
 volatile bool pitIsrFlag = false;
 MMA8451Q* akcelerometer;
 
-/*extern "C" void PORTA_IRQHandler(void){  //asi netreba..asi az pre volny pad----treba riesi PIT PRERUSENIE
-	GPIO_ClearPinsInterruptFlags(GPIOA, (1<<15));
-
-	PRINTF("Interrupt!\n\r");
-
-	//akcelerometer->FreeFall_Detect();
-}*/
-
-
 int main(void){
 
 	INIT_BOARD();		//init board
 	INIT_PIT();
 
-	NVIC_EnableIRQ(PORTA_IRQn);  //tiez asi az  pre volny pad
 	MMA8451Q acc(0x1D);
 	akcelerometer= &acc;
 
@@ -61,15 +51,10 @@ int main(void){
 	int naklonXY[2];
 
 	while(1) {
-
-		//SMC_PreEnterStopModes();  ///asi PIT/PRERUSENIE
-
 	    	if(true == pitIsrFlag) //PIT
 	    	{
 	    		LED_BLUE_TOGGLE();//CYAN
 	    		LED_GREEN_TOGGLE();//
-
-
 
 				akt_os[0] = acc.getAccX();
 				dpf_os[0] = dolnoPriepustnyFilter(dpf_os[0], akt_os);
@@ -87,7 +72,7 @@ int main(void){
 				PRINTF(", y=%d",(int)(dpf_os[1]*100));
 				PRINTF(", z=%d\r\n",(int)(dpf_os[2]*100));
 
-				//PRINTF("\n%d",(int)(dpf_os[0]*100));
+				//PRINTF("\n%d",(int)(dpf_os[0]*100));  //kvoli vypisovaniu cez ten Serial Chart
 				//PRINTF(",%d",(int)(dpf_os[1]*100));
 				//PRINTF(",%d\r\n",(int)(dpf_os[2]*100));
 
@@ -103,25 +88,12 @@ int main(void){
 				}
 				else PRINTF("y : %d\n\r", naklonXY[1]);
 
-
-
-
 				for( int a = 4000000; a>0 ;a-- ) {//funguje ako timer....Aby to nevypisovalo tak rychlo
 				}
 				pitIsrFlag = false;
 	    	}
 	    	LED_GREEN_TOGGLE();// Zlta
 	    	LED_RED_TOGGLE();//   LED
-
-	    	// Uspatie procesora
-	    	//PRINTF("Vykonavam cyklus\n\r");
-	    	//SMC_SetPowerModeStop(SMC, kSMC_PartialStop);  // nič nezobudi procesor
-	    	//SMC_SetPowerModeVlpw(SMC);					// procesor bude zobudeny iba pri GPIO a PIT
-	    	//SMC_SetPowerModeLls(SMC);					// procesor bude zobudeny iba pri GPIO
-	    	//SMC_PostExitStopModes();
-
-
-
 	    }
 	    return 0;
 	}

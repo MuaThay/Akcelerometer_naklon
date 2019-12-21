@@ -80,6 +80,13 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_LED_BLUE_PIN 1U     /*!<@brief PORTD pin index: 1 */
                                            /* @} */
 
+/*! @name PORTA14 (number 34), U7[11]/INT1_ACCEL
+  @{ */
+#define BOARD_INITPINS_ACCEL_INT1_GPIO GPIOA /*!<@brief GPIO device name: GPIOA */
+#define BOARD_INITPINS_ACCEL_INT1_PORT PORTA /*!<@brief PORT device name: PORTA */
+#define BOARD_INITPINS_ACCEL_INT1_PIN 14U    /*!<@brief PORTA pin index: 14 */
+                                             /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
